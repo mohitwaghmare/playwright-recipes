@@ -1,73 +1,248 @@
-//locators -> XPath -> CSS
+// =====================================================================================
+// PLAYWRIGHT LOCATORS
+// =====================================================================================
 
-//locator identidies the element on the page. It is a way to find elements in the DOM. There are different types of locators like ID, Name, Class Name, Tag Name, Link Text, Partial Link Text, CSS Selector, and XPath.
-//DOM - Document Object Model. It is a programming interface for web documents. It represents the page so that programs can change the document structure, style, and content. The DOM represents the document as nodes and objects. That way, programming languages can connect to the page.
+// A locator is a way for Playwright to identify and interact with an element on a web page.
+//
+// Every action in Playwright starts with a locator:
+//
+// - Click a button
+// - Enter text
+// - Select a checkbox
+// - Read text
+// - Verify visibility
+//
+// Behind the scenes, Playwright searches the page's DOM (Document Object Model)
+// to find the element before performing the action.
 
-/*
-These are the recommended built-in locators.
+// Traditional automation tools mainly use:
+//
+// • XPath
+// • CSS Selector
+//
+// Playwright also supports them:
+//
+// page.locator("//input[@id='Email']")      // XPath
+// page.locator("#Email")                    // CSS
+//
+// However, Playwright recommends using its built-in locators because they are:
+//
+// ✅ Easier to read
+// ✅ More reliable
+// ✅ Less likely to break when UI changes
+// ✅ Encourage accessibility best practices
 
-page.getByRole() to locate by explicit and implicit accessibility attributes.
-page.getByText() to locate by text content.
-page.getByLabel() to locate a form control by associated label's text.
-page.getByPlaceholder() to locate an input by placeholder.
-page.getByAltText() to locate an element, usually image, by its text alternative.
-page.getByTitle() to locate an element by its title attribute.
-page.getByTestId() to locate an element based on its data-testid attribute (other attributes can be configured).
-
-*/
+// =====================================================================================
+// DOM (Document Object Model)
+// =====================================================================================
+//
+// DOM is a tree-like representation of every element present on a webpage.
+//
+// Example:
+//
+// <html>
+//   <body>
+//      <h1>Welcome</h1>
+//      <input placeholder="Search">
+//      <button>Login</button>
+//   </body>
+// </html>
+//
+// Every HTML tag becomes a node inside the DOM.
+//
+// Playwright searches this DOM to find elements.
+//
+// =====================================================================================
+// PLAYWRIGHT BUILT-IN LOCATORS (Recommended by Microsoft)
+// =====================================================================================
+//
+// 1. getByRole()
+//    -> Uses accessibility role and accessible name.
+//    -> Most recommended locator.
+//    -> Best for buttons, links, checkboxes, headings, etc.
+//
+// 2. getByText()
+//    -> Finds elements using visible text.
+//
+// 3. getByLabel()
+//    -> Finds form fields using their associated label.
+//
+// 4. getByPlaceholder()
+//    -> Finds input fields using placeholder text.
+//
+// 5. getByAltText()
+//    -> Finds images using alt text.
+//
+// 6. getByTitle()
+//    -> Finds elements using the title attribute.
+//
+// 7. getByTestId()
+//    -> Finds elements using data-testid attribute.
+//    -> Preferred in enterprise automation because UI text can change.
+//
+// Locator priority (recommended)
+//
+// ⭐⭐⭐⭐⭐ getByRole()
+// ⭐⭐⭐⭐☆ getByLabel()
+// ⭐⭐⭐⭐☆ getByPlaceholder()
+// ⭐⭐⭐⭐☆ getByTestId()
+// ⭐⭐⭐☆☆ getByText()
+// ⭐⭐☆☆☆ CSS Selector
+// ⭐☆☆☆☆ XPath (use only when necessary)
 
 import { test, expect, Locator } from '@playwright/test';
 
 test('Verify Playwright Built-in Locators', async ({ page }) => {
 
-await page.goto('https://demowebshop.tricentis.com/');
+    // Navigate to Demo Web Shop
+    await page.goto('https://demowebshop.tricentis.com/');
 
-//page.getAltText() to locate an element, usually image, by its text alternative.
+    // =============================================================================
+    // getByAltText()
+    // =============================================================================
+    //
+    // Used to locate images using their ALT attribute.
+    //
+    // Example:
+    // <img alt="Company Logo">
+    //
+    // Mostly used for logos, banners, product images and icons.
+    //
 
-const logo:Locator= page.getByAltText('Tricentis Demo Web Shop');
+    const logo: Locator = page.getByAltText('Tricentis Demo Web Shop');
 
-await logo.click();
+    await expect(logo).toBeVisible();
+    await logo.click();
 
-await expect(logo).toBeVisible();
+    // =============================================================================
+    // getByText()
+    // =============================================================================
+    //
+    // Finds elements using visible text.
+    //
+    // Best for:
+    // - Messages
+    // - Paragraphs
+    // - Labels
+    // - Links
+    // - Buttons
+    //
+    // Avoid using it for input fields.
+    // Use getByLabel() or getByPlaceholder() instead.
+    //
 
-//page.getByText() to locate by text content. Not for input elements, use getByLabel() or getByPlaceholder() instead.
+    await expect(page.getByText('Welcome to our store')).toBeVisible();
 
-//const text:Locator= page.getByText('Newsletter');
-//await expect(text).toBeVisible();
-//we can provide substring to getByText() to locate the element. It will locate the element which contains the substring.
+    // Partial text match
+    await expect(page.getByText('Welcome to our')).toBeVisible();
 
-await expect(page.getByText('Welcome to our store')).toBeVisible(); //full text
-await expect(page.getByText('Welcome to our')).toBeVisible(); //substring
+    // Case-insensitive by default
+    await expect(page.getByText('welcome to our store')).toBeVisible();
 
-//case insensitive search
-await expect(page.getByText('welcome to our store')).toBeVisible();
+    // Exact text match
+    await expect(
+        page.getByText('Welcome to our store', { exact: true })
+    ).toBeVisible();
 
-//case sensitive search
-await expect(page.getByText('Welcome to our store', { exact: true })).toBeVisible();
+    // =============================================================================
+    // getByRole()
+    // =============================================================================
+    //
+    // Microsoft's most recommended locator.
+    //
+    // Uses accessibility roles.
+    //
+    // Examples:
+    // button
+    // link
+    // textbox
+    // heading
+    // checkbox
+    // radio
+    //
+    // Advantages:
+    // ✔ Stable
+    // ✔ Readable
+    // ✔ Accessibility-friendly
+    //
 
-//page.getByRole() to locate by explicit and implicit accessibility attributes.
+    await page.getByRole('link', { name: 'Register' }).click();
 
-await page.getByRole('link', { name: 'Register' }).click(); //click on the Register link
+    // Verify Register page heading
 
+    await expect(
+        page.getByRole('heading', { name: 'Register' })
+    ).toBeVisible();
 
-//you can also use getByText() to locate the heading element. But getByRole() is more reliable and recommended.
-await expect(page.getByRole('heading', { name: 'Register' })).toBeVisible(); 
+    // =============================================================================
+    // getByLabel()
+    // =============================================================================
+    //
+    // Finds form controls using their associated label.
+    //
+    // Example:
+    //
+    // <label>Email:</label>
+    // <input>
+    //
+    // Best choice for forms.
+    //
 
-//getbylabel() to locate a form control by associated label's text. Ideally, you should use getByRole() to locate form controls, but if you want to locate by label text, you can use getByLabel().
+    await page.getByLabel('First name:').fill('Mohit');
+    await page.getByLabel('Last name:').fill('Waghmare');
+    await page.getByLabel('Email:').fill('mmw@abc.com');
 
-await page.getByLabel('First name:').fill('Mohit');
-await page.getByLabel('Last name:').fill('Waghmare');
-await page.getByLabel('Email:').fill('mmw@abc.com');
+    // =============================================================================
+    // getByPlaceholder()
+    // =============================================================================
+    //
+    // Finds input fields using placeholder text.
+    //
+    // Example:
+    //
+    // <input placeholder="Search store">
+    //
+    // Useful when a label does not exist.
+    //
+    // Prefer getByLabel() whenever labels are available.
+    //
 
-//getByPlaceholder() to locate an input by placeholder. best for inputs without labels. But if the input has a label, you should use getByLabel() instead.
+    // await page.getByPlaceholder('Password').fill('Password123');
+    // await page.getByPlaceholder('Confirm password').fill('Password123');
 
-//await page.getByPlaceholder('Password').fill('Password123');
-//await page.getByPlaceholder('Confirm password').fill('Password123');
+    // =============================================================================
+    // getByTitle()
+    // =============================================================================
+    //
+    // Finds elements using the HTML title attribute.
+    //
+    // Example:
+    //
+    // <button title="Search">
+    //
+    // Note:
+    // This locator ONLY works if the HTML element actually contains
+    // a title attribute.
+    //
+    // It should not be confused with the page title.
+    //
 
-//getByTitle() to locate an element by its title attribute. It is best for elements that have a title attribute. But if the element has a label, you should use getByLabel() instead.
+    // Example
+    // await page.getByTitle('Search').click();
 
-await page.goto("https://demowebshop.tricentis.com/");
-await page.getByTitle('Search').fill('laptop');
-await page.getByTitle('Search').press('Enter');
+    // =============================================================================
+    // getByTestId()
+    // =============================================================================
+    //
+    // Finds elements using data-testid.
+    //
+    // Example:
+    //
+    // <input data-testid="email-input">
+    //
+    // Enterprise applications commonly expose dedicated test IDs.
+    // These are very stable because developers rarely change them.
+    //
 
-})
+    // await page.getByTestId('newsletter-email').fill('test@example.com');
+});
