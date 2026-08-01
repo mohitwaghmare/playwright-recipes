@@ -1,6 +1,8 @@
 import { test, expect, Locator } from '@playwright/test';
 
-test('Handle Dynamic Elements using XPath', async ({ page }) => {
+test('Handle Dynamic Elements using XPath', async ({ page, browserName }) => {
+
+    test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
 
     await page.goto("https://testautomationpractice.blogspot.com/");
 
@@ -19,10 +21,12 @@ test('Handle Dynamic Elements using XPath', async ({ page }) => {
         await page.waitForTimeout(1000);
     }
 
-    })
+})
 
-    //Using CSS Selectors to locate dynamic elements
-    test('Handle Dynamic Elements using CSS Selectors', async ({ page }) => {
+//Using CSS Selectors to locate dynamic elements
+test('Handle Dynamic Elements using CSS Selectors', async ({ page, browserName }) => {
+
+    test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
 
     await page.goto("https://testautomationpractice.blogspot.com/");
 
@@ -41,11 +45,13 @@ test('Handle Dynamic Elements using XPath', async ({ page }) => {
         await page.waitForTimeout(1000);
     }
 
-    })
+})
 
-    //Using playwright specific locators to locate dynamic elements
+//Using playwright specific locators to locate dynamic elements
 
-    test('Handle Dynamic Elements using Playwright Specific Locators', async ({ page }) => {
+test('Handle Dynamic Elements using Playwright Specific Locators', async ({ page, browserName }) => {
+
+    test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
 
     await page.goto("https://testautomationpractice.blogspot.com/");
 
