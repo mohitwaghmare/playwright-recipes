@@ -1,9 +1,12 @@
 import { test, expect, Locator } from '@playwright/test';
 
-test('Handle Dynamic Elements using XPath', async ({ page, browserName }) => {
+declare const __dirname: string;
 
+const demoPage = `file:///${__dirname.replace(/\\/g, '/').replace(/^\/+/, '')}/../../demo-site/dynamic-locators.html`;
 
-    await page.goto("https://testautomationpractice.blogspot.com/");
+test('Handle Dynamic Elements using XPath', async ({ page }) => {
+
+    await page.goto(demoPage);
 
     //Loop to click button 5 times
     for (let i = 1; i <= 5; i++) {
@@ -17,22 +20,19 @@ test('Handle Dynamic Elements using XPath', async ({ page, browserName }) => {
         //let button = await page.locator('//button[starts-with(@name, "st")]')
 
         await button.click();
-        await page.waitForTimeout(1000);
     }
 
 })
 
 //Using CSS Selectors to locate dynamic elements
-test('Handle Dynamic Elements using CSS Selectors', async ({ page, browserName }) => {
+test('Handle Dynamic Elements using CSS Selectors', async ({ page }) => {
 
-    //test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
-
-    await page.goto("https://testautomationpractice.blogspot.com/");
+    await page.goto(demoPage);
 
     //Loop to click button 5 times
     for (let i = 1; i <= 5; i++) {
 
-        let button: Locator = page.locator("button:has-text('stop'), button:has-text('start')");
+        let button: Locator = page.locator("button:has-text('STOP'), button:has-text('START')");
 
         //locate the button with either "Start" or "Stop" text and click it
         //let button = await page.locator('button[@name= "start"]')
@@ -41,24 +41,20 @@ test('Handle Dynamic Elements using CSS Selectors', async ({ page, browserName }
         //let button = await page.locator('//button[starts-with(@name, "st")]')
 
         await button.click();
-       //wait page.waitForTimeout(1000);
     }
 
 })
 
 //Using playwright specific locators to locate dynamic elements
 
-test('Handle Dynamic Elements using Playwright Specific Locators', async ({ page, browserName }) => {
+test('Handle Dynamic Elements using Playwright Specific Locators', async ({ page }) => {
 
-    //test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
-
-    await page.goto("https://testautomationpractice.blogspot.com/");
+    await page.goto(demoPage);
 
     for (let i = 1; i <= 5; i++) {
-        
+
         const button: Locator = page.getByRole('button', { name: /STOP|START/ });
 
         await button.click();
-        //awt page.waitForTimeout(1000);
     }
-})
+});

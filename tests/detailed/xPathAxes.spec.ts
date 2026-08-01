@@ -53,5 +53,4 @@ test("XPath Axes Demo", async ({page}) => {
     const precedingSiblingCells: Locator = page.locator("//td[text()= 'Germany']/preceding-sibling::td");
     await expect(precedingSiblingCells.nth(1)).toHaveText('Maria Anders');
     await expect(precedingSiblingCells).toHaveCount(2);
-
 })

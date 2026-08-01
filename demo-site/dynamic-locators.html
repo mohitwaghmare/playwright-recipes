@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Locators Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .demo-card {
+            background: white;
+            border: 1px solid #d9e2ec;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            padding: 24px 30px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: 1px solid #b8c2cc;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #f0f4f8;
+            color: #1f2933;
+        }
+
+        button.start {
+            background: #f0f4f8;
+            color: #1f2933;
+        }
+
+        button.stop {
+            background: #dceafe;
+            color: #0f3d8b;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-card">
+        <h2>Simple Start / Stop Demo</h2>
+        <p>This page keeps the button visible and toggles its text, name, and class.</p>
+
+        <!-- This is the only button on the page. -->
+        <button id="toggleButton" name="start" class="start" type="button">START</button>
+    </div>
+
+    <script>
+        // Get the button element from the page.
+        const button = document.getElementById('toggleButton');
+
+        // When the button is clicked, switch between START and STOP.
+        // The text, name attribute, and class are changed immediately.
+        button.addEventListener('click', () => {
+            const isStart = button.getAttribute('name') === 'start';
+
+            button.textContent = isStart ? 'STOP' : 'START';
+            button.setAttribute('name', isStart ? 'stop' : 'start');
+            button.classList.remove('start', 'stop');
+            button.classList.add(isStart ? 'stop' : 'start');
+        });
+    </script>
+</body>
+</html>
