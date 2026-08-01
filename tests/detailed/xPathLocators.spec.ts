@@ -20,6 +20,8 @@ test('Verify Playwright XPath Locators', async ({ page }) => {
     //XPath with contains()
     const product: Locator = page.locator("//h2/a[contains(@href, 'computer')]");
 
+    await expect(product.first()).toBeVisible();
+
     const productsCount = await product.count();
     console.log(`Total Products Found: ${productsCount}`);
     expect(productsCount).toBeGreaterThan(0);
@@ -43,13 +45,16 @@ test('Verify Playwright XPath Locators', async ({ page }) => {
     const allProducts = await product.allTextContents();
     console.log("All Products: ", allProducts);
 
-    for(let pt of allProducts) {
+    for (let pt of allProducts) {
         console.log("Product Name: " + pt);
     }
 
     //XPath with starts-with()
 
     const buildingProducts: Locator = page.locator("//h2/a[starts-with(@href,'/build')]");
+
+    await expect(buildingProducts.first()).toBeVisible();
+
     const buildingProductsCount: number = await buildingProducts.count();
     expect(buildingProductsCount).toBeGreaterThan(0);
     console.log(`Total Building Products Found: ${buildingProductsCount}`);
