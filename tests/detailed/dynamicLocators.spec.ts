@@ -2,7 +2,6 @@ import { test, expect, Locator } from '@playwright/test';
 
 test('Handle Dynamic Elements using XPath', async ({ page, browserName }) => {
 
-    test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
 
     await page.goto("https://testautomationpractice.blogspot.com/");
 
@@ -26,7 +25,7 @@ test('Handle Dynamic Elements using XPath', async ({ page, browserName }) => {
 //Using CSS Selectors to locate dynamic elements
 test('Handle Dynamic Elements using CSS Selectors', async ({ page, browserName }) => {
 
-    test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
+    //test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
 
     await page.goto("https://testautomationpractice.blogspot.com/");
 
@@ -51,7 +50,7 @@ test('Handle Dynamic Elements using CSS Selectors', async ({ page, browserName }
 
 test('Handle Dynamic Elements using Playwright Specific Locators', async ({ page, browserName }) => {
 
-    test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
+    //test.skip(browserName === 'firefox', 'Skipping on Firefox due to demo website issue');
 
     await page.goto("https://testautomationpractice.blogspot.com/");
 
