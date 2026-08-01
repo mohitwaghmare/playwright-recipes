@@ -32,7 +32,7 @@ test('Handle Dynamic Elements using CSS Selectors', async ({ page, browserName }
     //Loop to click button 5 times
     for (let i = 1; i <= 5; i++) {
 
-        let button: Locator = page.locator("button:has-text('STOP'), button:has-text('START')");
+        let button: Locator = page.locator("button:has-text('stop'), button:has-text('start')");
 
         //locate the button with either "Start" or "Stop" text and click it
         //let button = await page.locator('button[@name= "start"]')
@@ -41,7 +41,7 @@ test('Handle Dynamic Elements using CSS Selectors', async ({ page, browserName }
         //let button = await page.locator('//button[starts-with(@name, "st")]')
 
         await button.click();
-        await page.waitForTimeout(1000);
+       //wait page.waitForTimeout(1000);
     }
 
 })
@@ -59,6 +59,6 @@ test('Handle Dynamic Elements using Playwright Specific Locators', async ({ page
         const button: Locator = page.getByRole('button', { name: /STOP|START/ });
 
         await button.click();
-        await page.waitForTimeout(1000);
+        //awt page.waitForTimeout(1000);
     }
 })
