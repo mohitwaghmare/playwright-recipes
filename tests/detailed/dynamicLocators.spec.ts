@@ -55,7 +55,7 @@ test('Handle Dynamic Elements using Playwright Specific Locators', async ({ page
     await page.goto("https://testautomationpractice.blogspot.com/");
 
     for (let i = 1; i <= 5; i++) {
-
+        
         const button: Locator = page.getByRole('button', { name: /STOP|START/ });
 
         await button.click();
