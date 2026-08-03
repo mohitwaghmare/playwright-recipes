@@ -45,19 +45,86 @@ test ('Radio Button Actions', async ({page}) => {
 
 test ('Checkbox Actions', async ({page}) => {
 
-    await page.goto('https://demowebshop.tricentis.com/');
+    await page.goto('https://testautomationpractice.blogspot.com/');       
 
-    /*
-    const checkbox: Locator = page.locator('#pollanswers-1');
-    await expect(checkbox).toBeVisible();
-    await expect(checkbox).toBeEnabled();
-    await checkbox.check();
-    await expect(await checkbox.isChecked()).toBe(true);
+    //1. Select specific checkbox (Option2) using getByLabel and assert
+
+    const sundayCheckbox: Locator = page.getByLabel('Sunday');
+    await sundayCheckbox.check();
+    await expect(sundayCheckbox).toBeChecked();
+
+    //2. Select all checkboxes and assert is checked
+
+    const days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const checkboxes: Locator[] = days.map(index => page.getByLabel(index));
+    expect(checkboxes.length).toBe(days.length);
+
+    // 3. Select all checkboxes and assert each is checked
+
+    for (const checkbox of checkboxes) {
+        await checkbox.check();
+        await expect(checkbox).toBeChecked();
+    }
+
+    // 4. Uncheck last 3 checkboxes and assert
+
+    for (const checkbox of checkboxes.slice(-3)) {
+        await checkbox.uncheck();
+        await expect(checkbox).not.toBeChecked();
+    }
+
+    /* 5. Toggle Checkboxes: If checked, uncheck; if unnchecked, check. Assert state flipped
+
+    for (const checkbox of checkboxes) {
+
+        if (await checkbox.isChecked()) {
+
+        //onlyne if checked
+
+        await checkbox.uncheck();
+        await expect(checkbox).not.toBeChecked();
+        
+        
+
+        } else {
+
+        //onlyne if not checked
+
+        await checkbox.check
+        await expect(checkbox).toBeChecked();
+
+        }
+    }
+        */
+
+    /* 6. Randomly select check boxes - select checkboxes by index (1, 3, 6) and assert
+
+    const indexes: number[] = [1, 3, 6];
+
+    for(const i of indexes) {
+
+        await checkboxes[i].check();
+        await expect(checkboxes[i]).toBeChecked();
+    }
+   
+    await page.waitForTimeout(3000);
+
     */
 
-    const checkbox: Locator = page.getByRole('checkbox', {name: 'Excellent'});
+    // 7. Select the checkbox based on the label
 
-    await expect(checkbox).toBeVisible();
-    await expect(checkbox).toBeEnabled();
+    const weekname='Friday';
+
+    //const checkbox: Locator = page.getByLabel(weekname);
+
+    for(const label of days) {
+
+        if(label.toLowerCase()===weekname.toLowerCase())
+        {
+            const checkbox=page.getByLabel(label);
+            checkbox.check();
+            await expect(checkbox).toBeChecked();
+        }
+    }
 
 })
