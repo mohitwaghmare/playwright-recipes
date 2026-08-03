@@ -1,12 +1,16 @@
 import {test, expect, Locator} from '@playwright/test';
 
+declare const __dirname: string;
+
+const demoPage = `file:///${__dirname.replace(/\\/g, '/').replace(/^\/+/, '')}/../../demo-site/testing-practice.html`;
+
 //text input
 
 test ('Text Input Actions', async ({page}) => {
 
-    await page.goto('https://demowebshop.tricentis.com/');
+    await page.goto(demoPage);
 
-    const searchBox: Locator = page.locator('#small-searchterms');
+    const searchBox: Locator = page.locator('#full-name');
 
     await expect(searchBox).toBeVisible();
 
@@ -28,9 +32,9 @@ test ('Text Input Actions', async ({page}) => {
 
 test ('Radio Button Actions', async ({page}) => {
 
-    await page.goto('https://demowebshop.tricentis.com/');
+    await page.goto(demoPage);
 
-    const radioButton: Locator = page.locator('#pollanswers-2');
+    const radioButton: Locator = page.locator("input[name='gender'][value='female']");
 
     await expect(radioButton).toBeVisible();
     await expect(radioButton).toBeEnabled();
@@ -45,17 +49,17 @@ test ('Radio Button Actions', async ({page}) => {
 
 test ('Checkbox Actions', async ({page}) => {
 
-    await page.goto('https://testautomationpractice.blogspot.com/');       
+    await page.goto(demoPage);
 
     //1. Select specific checkbox (Option2) using getByLabel and assert
 
-    const sundayCheckbox: Locator = page.getByLabel('Sunday');
+    const sundayCheckbox: Locator = page.getByLabel('Sun');
     await sundayCheckbox.check();
     await expect(sundayCheckbox).toBeChecked();
 
     //2. Select all checkboxes and assert is checked
 
-    const days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const days: string[] = ['Mon', 'Fri', 'Sun'];
     const checkboxes: Locator[] = days.map(index => page.getByLabel(index));
     expect(checkboxes.length).toBe(days.length);
 
@@ -113,7 +117,7 @@ test ('Checkbox Actions', async ({page}) => {
 
     // 7. Select the checkbox based on the label
 
-    const weekname='Friday';
+    const weekname='Fri';
 
     //const checkbox: Locator = page.getByLabel(weekname);
 
