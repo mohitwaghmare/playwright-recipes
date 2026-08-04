@@ -77,7 +77,7 @@ test ('Checkbox Actions', async ({page}) => {
         await expect(checkbox).not.toBeChecked();
     }
 
-    /* 5. Toggle Checkboxes: If checked, uncheck; if unnchecked, check. Assert state flipped
+    /*5. Toggle Checkboxes: If checked, uncheck; if unnchecked, check. Assert state flipped
 
     for (const checkbox of checkboxes) {
 
