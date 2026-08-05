@@ -1,0 +1,35 @@
+/*import {test, expect, Locator} from "@playwright/test";
+
+test ('Duplicate Values in Dropdown', async ({page})=>{
+
+    await page.goto('https://testautomationpractice.blogspot.com/');
+
+    const dropdownOptions: Locator = page.locator('#colors>option'); //duplicates
+    //const dropdownOptions: Locator = page.locator('#animal>option');
+
+    const optionsText: string[] = (await dropdownOptions.allTextContents()).map(text=>text.trim());
+    
+    const myset = new Set<string>(); //set - duplicates not allowed
+    const duplicates: string[]=[]; //array - duplicates allowed
+
+    for(const text of optionsText){
+
+        if(myset.has(text)){
+            duplicates.push(text);
+        } else{
+            myset.add(text);
+        }
+    }
+
+    console.log("Duplicate options are: ", duplicates);
+
+    if(duplicates.length>0){
+        console.log("Duplicate Options Found: ", duplicates);
+    } else{
+        console.log("No Duplicates Found");
+    }
+
+    expect(duplicates.length).toBe(2);
+})
+    */
+
