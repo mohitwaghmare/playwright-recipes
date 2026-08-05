@@ -37,5 +37,4 @@ test ('Check Dropdown Options', async ({page}) =>{
 
         console.log(option)
     }
-
 })
